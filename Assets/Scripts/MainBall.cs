@@ -20,8 +20,8 @@ public class MainBall : MonoBehaviour
     private Rigidbody2D rig2D;
     private Vector3[] points = new Vector3[4];
     private Vector2[] rayDirection = new Vector2[4];
-    
 
+    private int damageToGive = 10;
 
     private void Awake () 
 	{
@@ -117,5 +117,13 @@ public class MainBall : MonoBehaviour
     public void DestroySelf()
     {
         Destroy(gameObject);
-    } 
+    }
+
+    public   void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.CompareTag("Blocker") && collider.GetComponent<ICanTakeDamage>() != null)
+        {
+            collider.GetComponent<ICanTakeDamage>().TakeDamage(damageToGive, gameObject);
+        }
+    }
 }
