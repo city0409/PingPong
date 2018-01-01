@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class MainBan : MonoBehaviour
 {
-    [SerializeField]
-    private Transform mainBall;
     //[SerializeField]
     //private Transform pointLeft;
     //[SerializeField]
     //private Transform pointRight;
     [SerializeField]
-    private float Speed = 5f;
+    private   float Speed = 5f;
     
 
     private float directionX;
@@ -23,7 +21,6 @@ public class MainBan : MonoBehaviour
 
     private void Awake()
     {
-        mainBall = GetComponent<Transform>();
         rig2D = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
 

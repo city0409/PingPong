@@ -9,6 +9,7 @@ public class Health : MonoBehaviour , ICanTakeDamage
     private int InitialHealth;
     [SerializeField]
     private UnityEvent destroyEvent;
+    public UnityEvent DestroyEvent { set { destroyEvent = value; } }
 
     public int CurrentHealth { get; protected set; }
 
