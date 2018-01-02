@@ -29,4 +29,9 @@ public class GameManager : Singleton <GameManager>
 	{
         print("GameOver!");
 	}
+
+    public  void GameWin()
+    {
+        //print("YouWin!");
+    }
 }

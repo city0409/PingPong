@@ -12,12 +12,14 @@ public class Blocker : MonoBehaviour, ICanTakeDamage
     private int currentHealth;
 
     private float damageFrequency = 0.5f;
+    private BlockControl blockControl;
 
     public int CurrentHealth { get { return currentHealth; } protected set { currentHealth = value; } }
 
     private void Awake()
     {
         rend = GetComponent<SpriteRenderer>();
+        blockControl = GetComponentInParent<BlockControl>();
     }
     private void Start()
     {
@@ -49,6 +51,7 @@ public class Blocker : MonoBehaviour, ICanTakeDamage
         rend .enabled = false;
         yield return null;
         Destroy(gameObject);
+        blockControl.BlockAmount--;
     }
 
 }

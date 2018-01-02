@@ -14,6 +14,8 @@ public struct PingPongInitData
 
 public class MainBall : MonoBehaviour
 {
+    [SerializeField]
+    private ParticleSystem fx;
     private Transform mainBan;
     [SerializeField]
     private LayerMask layerMask;
@@ -64,7 +66,7 @@ public class MainBall : MonoBehaviour
         //rayDirection[1] = Vector3.right ;
         //rayDirection[2] = Vector3.up ;
         //rayDirection[3] = Vector3.down ;
-
+        fx.Play();
 
     }
 
@@ -132,6 +134,7 @@ public class MainBall : MonoBehaviour
     public void DestroySelf()
     {
         GameManager.Instance.Life -= 1;
+        fx.Stop();
         ResetPingPongData();
     }
 
@@ -141,6 +144,7 @@ public class MainBall : MonoBehaviour
         transform.rotation = Quaternion.identity;
         rig2D.velocity = Vector2.zero;
         rig2D.angularVelocity = 0f;
+        fx.Play();
     }
 
     private void OnDrawGizmosSelected()//看方块射线的大小

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class MainBan : MonoBehaviour
 {
-    //[SerializeField]
-    //private Transform pointLeft;
+    
     //[SerializeField]
     //private Transform pointRight;
     [SerializeField]
