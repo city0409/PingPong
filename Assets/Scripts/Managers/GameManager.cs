@@ -8,6 +8,10 @@ public class GameManager : Singleton <GameManager>
     private int life = 3;
     [SerializeField]
     private Transform mainBan;
+    [SerializeField]
+    private LeverDirector currentDirector;
+    public LeverDirector CurrentDirector { get { return currentDirector; } }
+
     public Transform MainBan { get { return mainBan; } }
 
     private int score;
@@ -25,13 +29,26 @@ public class GameManager : Singleton <GameManager>
         }
     }
 
+    private UIManager uiManager;
+
+    private void Start()
+    {
+        uiManager = UIManager.instance;
+    }
+
+ 
+
 	private void GameOver () 
 	{
         print("GameOver!");
-	}
+        uiManager.GameOver();
+
+    }
 
     public  void GameWin()
     {
-        //print("YouWin!");
+        print("YouWin!");
+        uiManager.GameWin();
+
     }
 }

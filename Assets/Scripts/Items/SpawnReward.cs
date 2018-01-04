@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnReward : MonoBehaviour 
+public abstract  class SpawnReward : MonoBehaviour 
 {
     [SerializeField]
     private Vector3 rotateVector3;
+    protected Collider2D myColl;
+
+    private void Awake()
+    {
+        myColl = GetComponent<Collider2D>();
+    }
 
 	private void Start () 
 	{

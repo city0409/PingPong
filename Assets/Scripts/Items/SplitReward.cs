@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SplitReward : MonoBehaviour 
+public class SplitReward : SpawnReward  
 {
-
-	private void Start () 
+	private void OnTriggerEnter2D (Collider2D coll) 
 	{
-		
-	}
-	
-	private void Update () 
-	{
-		
+        if (coll.CompareTag("Player"))
+        {
+            myColl.enabled = false;
+            print("SplitReward");
+        }
 	}
 }

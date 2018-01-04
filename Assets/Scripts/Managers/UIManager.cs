@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour 
+public class UIManager : Singleton <UIManager > 
 {
+    [SerializeField]
+    private GameObject gameOverPannel;
+    [SerializeField]
+    private GameObject gameWinPannel;
 
-	private void Start () 
+    public  void GameOver () 
 	{
-		
-	}
-	
-	private void Update () 
+        gameOverPannel.SetActive(true);
+
+    }
+
+    public  void GameWin () 
 	{
-		
+        gameWinPannel.SetActive(true);
 	}
 }

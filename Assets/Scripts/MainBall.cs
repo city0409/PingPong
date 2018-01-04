@@ -4,18 +4,20 @@ using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 
-[Serializable]
-public struct PingPongInitData
-{
-    public Vector3 initPosition;
-    public float speed;
-    public bool isStarted;
-}
-
 public class MainBall : MonoBehaviour
 {
+    public enum State { Idle,Running}
+    [Serializable]
+    public struct PingPongInitData
+    {
+        public State state;
+        public Vector3 initPosition;
+        public float speed;
+        //public bool isStarted;
+    }
+
     [SerializeField]
-    private ParticleSystem fx;
+    private TrailRenderer fx;
     private Transform mainBan;
     [SerializeField]
     private LayerMask layerMask;
@@ -36,22 +38,27 @@ public class MainBall : MonoBehaviour
 
     private PingPongInitData currentPingPongData;
     private MainBan currentBan;
-
+    private StateMachine<State> stateMachine;
 
     private void Awake()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
         rig2D = GetComponent<Rigidbody2D>();
+        fx = GetComponent<TrailRenderer>();
     }
 
     private void Start()
     {
         currentPingPongData = pingPongInitData;
-
+        fx.enabled = false;
         mainBan = GameManager.Instance.MainBan;
         currentBan = mainBan.GetComponent<MainBan>();
         dis = transform.position - mainBan.position;
-        direction = new Vector3(Random.Range(-1f, 1f), Random.value, 0).normalized;
+        //direction = new Vector3(Random.Range(-1f, 1f), Random.value, 0).normalized;
+        stateMachine = new StateMachine<State>();
+        stateMachine.AddState(State.Idle, () => { fx.enabled = false; });
+        stateMachine.AddState(State.Running ,() => { fx.enabled = true ; });
+        stateMachine.CurrentState = State.Idle;
 
         //pointLeft = new Vector3(-boxCollider2D.bounds.extents.x, 0);
         //pointRight = new Vector3(boxCollider2D.bounds.extents.x, 0);
@@ -66,7 +73,7 @@ public class MainBall : MonoBehaviour
         //rayDirection[1] = Vector3.right ;
         //rayDirection[2] = Vector3.up ;
         //rayDirection[3] = Vector3.down ;
-        fx.Play();
+        //fx.Play();
 
     }
 
@@ -74,9 +81,12 @@ public class MainBall : MonoBehaviour
     {
 
 
-        if (!currentPingPongData.isStarted && Input.GetKeyDown(KeyCode.Space))
-            currentPingPongData.isStarted = true;
-        if (!currentPingPongData.isStarted)
+        if (stateMachine.CurrentState == State.Idle && Input.GetKeyDown(KeyCode.Space))
+        {
+            fx.enabled = true;
+            stateMachine.CurrentState = State.Running;
+        }
+        if (stateMachine.CurrentState == State.Idle)
         {
             direction = (currentBan.RealSpeed.normalized + Vector3.up).normalized;
             transform.position = mainBan.position + dis;
@@ -89,7 +99,7 @@ public class MainBall : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!currentPingPongData.isStarted)
+        if (stateMachine.CurrentState == State.Idle)
             return;
         rig2D.velocity = direction * currentPingPongData.speed;
     }
@@ -134,7 +144,7 @@ public class MainBall : MonoBehaviour
     public void DestroySelf()
     {
         GameManager.Instance.Life -= 1;
-        fx.Stop();
+        //fx.Stop();
         ResetPingPongData();
     }
 
@@ -144,7 +154,8 @@ public class MainBall : MonoBehaviour
         transform.rotation = Quaternion.identity;
         rig2D.velocity = Vector2.zero;
         rig2D.angularVelocity = 0f;
-        fx.Play();
+        //fx.Play();
+        stateMachine.CurrentState = pingPongInitData.state;
     }
 
     private void OnDrawGizmosSelected()//看方块射线的大小
