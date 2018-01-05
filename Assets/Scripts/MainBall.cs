@@ -51,7 +51,7 @@ public class MainBall : MonoBehaviour
     {
         currentPingPongData = pingPongInitData;
         fx.enabled = false;
-        mainBan = GameManager.Instance.MainBan;
+        mainBan = GameManager.Instance.MainBan.transform ;
         currentBan = mainBan.GetComponent<MainBan>();
         dis = transform.position - mainBan.position;
         //direction = new Vector3(Random.Range(-1f, 1f), Random.value, 0).normalized;
