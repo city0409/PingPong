@@ -10,6 +10,17 @@ public abstract class LeverDirector : MonoBehaviour
     private RewardSpawner rewardSpawner;
     [SerializeField]
     private DotLine  dotLine;
+    [SerializeField]
+    protected MainBall ballPrefab;
+
+    protected MainBan downBan;
+    protected MainBan upBan;
+    public MainBan DownBan { get { return downBan; } }
+    public MainBan UpBan { get { return upBan; } }
+
+    protected MainBan initBan;
+    public MainBan InitBan { get { return initBan; } }
+
 
     public DotLine DotLine { get { return dotLine; } }
 

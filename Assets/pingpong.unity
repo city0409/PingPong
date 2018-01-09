@@ -3764,6 +3764,8 @@ MonoBehaviour:
     type: 2}
   rewardSpawner: {fileID: 1219697267}
   dotLine: {fileID: 1151952185}
+  ballPrefab: {fileID: 114433915933729854, guid: 877be3e98fefa074eaed239e6b01ca85,
+    type: 2}
   DownBanPos: {x: 0, y: -5.48, z: 0}
 --- !u!1 &1107348133
 GameObject:
@@ -5317,6 +5319,8 @@ MonoBehaviour:
     type: 2}
   rewardSpawner: {fileID: 1219697267}
   dotLine: {fileID: 1151952185}
+  ballPrefab: {fileID: 114433915933729854, guid: 877be3e98fefa074eaed239e6b01ca85,
+    type: 2}
   UpBanPos: {x: 0, y: 3.95, z: 0}
   DownBanPos: {x: 0, y: -5.48, z: 0}
 --- !u!1 &1621788999
@@ -6085,7 +6089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 3
-  currentPlayerCount: 0
+  currentPlayerCount: 1
   director1: {fileID: 1069984896}
   director2: {fileID: 1616222853}
 --- !u!4 &1993035752

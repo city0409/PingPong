@@ -9,9 +9,12 @@ public class LevelDirector1 : LeverDirector
 
 	public  override void Decorate () 
 	{
-        InputManager inputManager = InputManager.Instance ;
-        GameManager.Instance.MainBan = Instantiate(BanPrefab, DownBanPos, Quaternion.identity);
-        inputManager.BanDown = GameManager.Instance.MainBan;
+        downBan = Instantiate(BanPrefab, DownBanPos, Quaternion.identity);
+        initBan = downBan;
+        Instantiate(ballPrefab, DownBanPos + new Vector3(0, 0.1f, 0), Quaternion.identity);
+        //InputManager inputManager = InputManager.Instance ;
+        //GameManager.Instance.MainBan = Instantiate(BanPrefab, DownBanPos, Quaternion.identity);
+        //inputManager.BanDown = GameManager.Instance.MainBan;
 
     }
 }

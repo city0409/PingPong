@@ -53,9 +53,10 @@ public class GameManager : Singleton <GameManager>
         else
             currentDirector = director2;
         currentDirector.Decorate();
+        EventService.Instance.GetEvent<GameStartEvent>().Publish ();
     }
 
-	private void GameOver () 
+    private void GameOver () 
 	{
         print("GameOver!");
         uiManager.GameOver();

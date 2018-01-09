@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : PersistentSingleton<InputManager>
+public class InputManager : Singleton<InputManager>
 {
     [SerializeField]
     private Rect rectUp, rectDown;
@@ -18,14 +18,23 @@ public class InputManager : PersistentSingleton<InputManager>
     public MainBan BanUp { get { return banUp; }set { banUp = value; } }
     public MainBan BanDown { get { return banDown; } set { banDown = value; } }
 
+    private int upBanTouchCount;
+    private int downBanTouchCount;
 
     private float lastX;
 
-	private void Start () 
+	protected override  void Awake () 
 	{
-		
+        base.Awake();
+        EventService.Instance.GetEvent<GameStartEvent>().Subscribe(GameStart);
 	}
-	
+
+    private void GameStart()
+    {
+        banUp = GameManager.instance.CurrentDirector.UpBan;
+        banDown = GameManager.instance.CurrentDirector.DownBan ;
+    }
+
 	private void Update () 
 	{
         foreach (Touch  touch in Input .touches )
