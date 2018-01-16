@@ -13,12 +13,12 @@ public class LevelDirector2 : LeverDirector
         Vector3 ballPos;
         if (Random.value > 0.5f)
         {
-            ballPos = DownBanPos + new Vector3(0, 0.1f, 0);
+            ballPos = DownBanPos + new Vector3(0, 0.3f, 0);
             initBan = downBan;
         }
         else
         {
-            ballPos = UpBanPos - new Vector3(0, 0.1f, 0);
+            ballPos = UpBanPos - new Vector3(0, 0.3f, 0);
             initBan = UpBan;
 
         }

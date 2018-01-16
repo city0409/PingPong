@@ -12,7 +12,7 @@ public class InputManager : Singleton<InputManager>
     //private MainBan mainBan;
     //[SerializeField]
     private MainBan banUp;
-    //[SerializeField ]
+    //[SerializeField]
     private MainBan banDown;
 
     public MainBan BanUp { get { return banUp; }set { banUp = value; } }
@@ -26,10 +26,10 @@ public class InputManager : Singleton<InputManager>
 	protected override  void Awake () 
 	{
         base.Awake();
-        EventService.Instance.GetEvent<GameStartEvent>().Subscribe(GameStart);
+        EventService.Instance.GetEvent<PlayerCtrlActiveEvent>().Subscribe(PlayerCtrlActive);
 	}
 
-    private void GameStart()
+    private void PlayerCtrlActive()
     {
         banUp = GameManager.instance.CurrentDirector.UpBan;
         banDown = GameManager.instance.CurrentDirector.DownBan ;
@@ -37,8 +37,16 @@ public class InputManager : Singleton<InputManager>
 
 	private void Update () 
 	{
-        foreach (Touch  touch in Input .touches )
+        foreach (Touch  touch in Input .touches)
         {
+            if (!GameManager .Instance .GameActived && touch .phase !=TouchPhase.Ended  && touch .phase !=TouchPhase.Canceled )
+            {
+                GameManager.Instance.GameActiveEvent();
+            }
+            if (GameManager.Instance.GameActived && !GameManager .Instance .PlayerActived && touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled)
+            {
+                GameManager.Instance.PlayerReGoEvent ();
+            }
             if (banUp&& rectUp.Contains (Camera .main .ScreenToWorldPoint (touch .position )))
             {
                 if (touch .phase !=TouchPhase.Ended &&touch .phase !=TouchPhase.Canceled )

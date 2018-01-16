@@ -40,11 +40,13 @@ public class MainBall : MonoBehaviour
     private MainBan currentBan;
     private StateMachine<State> stateMachine;
 
+
     private void Awake()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
         rig2D = GetComponent<Rigidbody2D>();
         fx = GetComponent<TrailRenderer>();
+        EventService.Instance.GetEvent<PlayerRunEvent>().Subscribe(Run);
     }
 
     private void Start()
@@ -79,13 +81,6 @@ public class MainBall : MonoBehaviour
 
     private void Update()
     {
-
-
-        if (stateMachine.CurrentState == State.Idle )
-        {
-            fx.enabled = true;
-            stateMachine.CurrentState = State.Running;
-        }
         if (stateMachine.CurrentState == State.Idle)
         {
             direction = (currentBan.RealSpeed.normalized + Vector3.up).normalized;
@@ -95,6 +90,11 @@ public class MainBall : MonoBehaviour
         //transform.Translate(Time.deltaTime * direction* speed);
         DetectRaycast2();
 
+    }
+
+    public void Run()
+    {
+        stateMachine.CurrentState = State.Running;
     }
 
     private void FixedUpdate()
@@ -144,8 +144,8 @@ public class MainBall : MonoBehaviour
     public void DestroySelf()
     {
         GameManager.Instance.Life -= 1;
-        //fx.Stop();
         ResetPingPongData();
+        GameManager.Instance.PlayerDeadEvent();
     }
 
     public void ResetPingPongData()
@@ -154,8 +154,9 @@ public class MainBall : MonoBehaviour
         transform.rotation = Quaternion.identity;
         rig2D.velocity = Vector2.zero;
         rig2D.angularVelocity = 0f;
-        //fx.Play();
         stateMachine.CurrentState = pingPongInitData.state;
+
+        //playerDeadEvent();
     }
 
     private void OnDrawGizmosSelected()//看方块射线的大小

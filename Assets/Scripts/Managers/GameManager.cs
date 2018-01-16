@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : Singleton <GameManager> 
+public class GameManager : Singleton<GameManager>
 {
-    enum PlayerCount { One,Two}
+    enum PlayerCount { One, Two }
 
     [SerializeField]
     private int life = 3;
@@ -19,7 +19,7 @@ public class GameManager : Singleton <GameManager>
     private LeverDirector currentDirector;
     public LeverDirector CurrentDirector { get { return currentDirector; } }
 
-    public MainBan  MainBan { get { return mainBan; }set { mainBan = value; } }
+    public MainBan MainBan { get { return mainBan; } set { mainBan = value; } }
     //mainBan = mBan;
     //public MainBan MBan { get { return mBan; }set { mBan = value;} }
 
@@ -31,7 +31,7 @@ public class GameManager : Singleton <GameManager>
         set
         {
             life = value;
-            if (life <=0)
+            if (life <= 0)
             {
                 GameOver();
             }
@@ -39,34 +39,74 @@ public class GameManager : Singleton <GameManager>
     }
 
     private UIManager uiManager;
+    private bool gameActived;
+    private bool playerActived;
+    public  bool PlayerActived { get { return playerActived; }  set { playerActived = value; } }
+
+    public bool GameActived { get { return gameActived; } private set { gameActived = value; } }
 
     private void Start()
     {
         uiManager = UIManager.instance;
-        StartGame();
+        //EventService.Instance.GetEvent<GameActiveEvent>().Subscribe(ActiveGame);
     }
 
-    public void StartGame()
+    public void ActiveGame()
     {
+        gameActived = true;
+        PlayerActived = true;
         if (currentPlayerCount == PlayerCount.One)
             currentDirector = director1;
         else
             currentDirector = director2;
         currentDirector.Decorate();
-        EventService.Instance.GetEvent<GameStartEvent>().Publish ();
+
+        PlayerCtrlActiveEvent();
     }
 
-    private void GameOver () 
-	{
+    private void GameOver()
+    {
         print("GameOver!");
         uiManager.GameOver();
-
     }
 
-    public  void GameWin()
+    public void GameWin()
     {
         print("YouWin!");
         uiManager.GameWin();
+    }
 
+    public void GameActiveEvent()
+    {
+        EventService.Instance.GetEvent<GameActiveEvent>().Publish();
+        ActiveGame();
+    }
+
+    public void GameStartEvent()
+    {
+        EventService.Instance.GetEvent<GameStartEvent>().Publish();
+    }
+    public void PlayerRunEvent()
+    {
+        EventService.Instance.GetEvent<PlayerRunEvent>().Publish();
+    }
+    public void PlayerSpawnEvent()
+    {
+        EventService.Instance.GetEvent<PlayerSpawnEvent>().Publish();
+    }
+    public void PlayerCtrlActiveEvent()
+    {
+        EventService.Instance.GetEvent<PlayerCtrlActiveEvent>().Publish();
+    }
+
+    public void PlayerDeadEvent()
+    {
+        PlayerActived = false;
+        EventService.Instance.GetEvent<PlayerDeadEvent>().Publish();
+    }
+    public void PlayerReGoEvent()
+    {
+        PlayerActived = true ;
+        EventService.Instance.GetEvent<PlayerReGoEvent>().Publish();
     }
 }
