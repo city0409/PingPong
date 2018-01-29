@@ -55,7 +55,9 @@ public class MainBall : MonoBehaviour
         fx.enabled = false;
         mainBan = GameManager.Instance.CurrentDirector .InitBan .transform ;
         currentBan = mainBan.GetComponent<MainBan>();
-        dis = transform.position - mainBan.position;
+        //transform.position = mainBan.position + new Vector3(0, 0.3f, 0);
+
+        dis = GameManager.Instance.CurrentDirector.PongRelativePos;
         //direction = new Vector3(Random.Range(-1f, 1f), Random.value, 0).normalized;
         stateMachine = new StateMachine<State>();
         stateMachine.AddState(State.Idle, () => { fx.enabled = false; });
@@ -83,18 +85,11 @@ public class MainBall : MonoBehaviour
     {
         if (stateMachine.CurrentState == State.Idle)
         {
-            direction = (currentBan.RealSpeed.normalized + Vector3.up).normalized;
             transform.position = mainBan.position + dis;
             return;
         }
         //transform.Translate(Time.deltaTime * direction* speed);
         DetectRaycast2();
-
-    }
-
-    public void Run()
-    {
-        stateMachine.CurrentState = State.Running;
     }
 
     private void FixedUpdate()
@@ -104,6 +99,12 @@ public class MainBall : MonoBehaviour
         rig2D.velocity = direction * currentPingPongData.speed;
     }
 
+    public void Run()
+    {
+        stateMachine.CurrentState = State.Running;
+        direction = (currentBan.RealSpeed/10 + Vector3.up).normalized;
+        print(currentBan.RealSpeed.normalized);
+    }
     //private void DetectRaycasts()
     //{
     //    //RaycastHit2D resultLeft = Physics2D.Raycast(transform.position + pointLeft, Vector2.left, 0.02f, layerMask);

@@ -11,7 +11,8 @@ public class LevelDirector1 : LeverDirector
 	{
         downBan = Instantiate(BanPrefab, DownBanPos, Quaternion.identity);
         initBan = downBan;
-        Instantiate(ballPrefab, DownBanPos + new Vector3(0, 0.3f, 0), Quaternion.identity);
+        PongRelativePos =new Vector3 (0,0.3f,0);
+        Instantiate(ballPrefab, DownBanPos + PongRelativePos, Quaternion.identity);
         //InputManager inputManager = InputManager.Instance ;
         //GameManager.Instance.MainBan = Instantiate(BanPrefab, DownBanPos, Quaternion.identity);
         //inputManager.BanDown = GameManager.Instance.MainBan;

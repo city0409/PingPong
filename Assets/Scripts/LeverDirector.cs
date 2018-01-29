@@ -23,6 +23,7 @@ public abstract class LeverDirector : MonoBehaviour
 
 
     public DotLine DotLine { get { return dotLine; } }
+    public Vector3 PongRelativePos { get; protected set; }
 
     public abstract void Decorate();
     

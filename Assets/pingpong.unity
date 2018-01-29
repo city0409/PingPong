@@ -6295,7 +6295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 3
-  currentPlayerCount: 1
+  currentPlayerCount: 0
   director1: {fileID: 1069984896}
   director2: {fileID: 1616222853}
 --- !u!4 &1993035752
