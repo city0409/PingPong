@@ -7,9 +7,9 @@ public class EventBase
 {
     private List<Action> _action;
 
-    public bool KeepOnLevelChanging { get; protected set; }
+    public bool KeepOnLevelChanging { get; protected set; }//KeepOnLevelChanging保持消息在场景切换的时候
 
-	public  void Publish () 
+    public  void Publish () 
 	{
         if (_action == null) return;
         foreach (var action in _action )

@@ -37,7 +37,7 @@ public class InputManager : Singleton<InputManager>
 
 	private void Update () 
 	{
-        if (AppConst.platform == AppConst.Platform.Android)
+        if (AppConst.platform == AppConst.Platform.Android)//多点触控，电脑只有一个鼠标，否则可以通用
         {
             foreach (Touch touch in Input.touches)
             {
